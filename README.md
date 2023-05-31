@@ -2,7 +2,7 @@
 
 > This project is a simple Binance WebSocket Client that can be used to subscribe to Binance WebSocket streams. Included in this project is a simple example of how to use the client. As the application streams from Binance, it will log the data to the console as it calculates the median value of each symbol.
 
-> As of now, the Binance stream is not available in the US. If you are in the US, you will need to use a VPN to access the stream. 
+> As of now, the Binance stream is not available in the US. If you are in the US, you will need to use a VPN to access the stream.
 
 ## Installation
 
@@ -16,4 +16,10 @@ $ ./mvnw clean install
 
 ```shell
 $ ./mvwn spring-boot:run
+```
+To perform API calls you can use the follow curl commands:
+```shell
+$ curl http://localhost:8080/symbols
+$ curl http://localhost:8080/seenSymbols
+$ curl http://localhost:8080/symbols/{symbol}
 ```

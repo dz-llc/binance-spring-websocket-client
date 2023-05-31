@@ -1,4 +1,4 @@
-package derekzuk.structure.mediancalculator.wsclient;
+package derekzuk.structure.binancespringwebsocketclient.wsclient;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

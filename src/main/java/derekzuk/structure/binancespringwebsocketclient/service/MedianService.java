@@ -1,16 +1,13 @@
-package derekzuk.structure.mediancalculator.service;
+package derekzuk.structure.binancespringwebsocketclient.service;
 
+import derekzuk.structure.binancespringwebsocketclient.datastore.MedianDatastore;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class MedianService {
-
-    public Map<String, Median> medianPrice = new HashMap<>();
 
     public void calculateMedian(String message) {
         // populate statistics
@@ -19,7 +16,7 @@ public class MedianService {
         BigDecimal priceBigDecimal = new BigDecimal(price);
 
         String symbol = jsonObject.getString("s").toLowerCase();
-        Median m = medianPrice.get(symbol);
+        Median m = MedianDatastore.medianPrice.get(symbol);
         m.seen++;
         m.prices.add(priceBigDecimal);
 
@@ -29,16 +26,13 @@ public class MedianService {
             m.medianPrice = m.prices.get(mid.intValue());
         } else {
             Double mid = (m.seen / 2);
-            System.out.println("m.seen: " + m.seen);
-            System.out.println("mid:" + mid);
             m.medianPrice = m.prices.get(mid.intValue());
-            System.out.println("m.medianPrice: " + m.medianPrice);
         }
 
     }
 
     public void populatePrice(String symbol) {
-        medianPrice.put(symbol.toLowerCase(), new Median());
+        MedianDatastore.medianPrice.put(symbol.toLowerCase(), new Median());
     }
 }
 

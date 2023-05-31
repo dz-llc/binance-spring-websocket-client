@@ -1,4 +1,4 @@
-package derekzuk.structure.mediancalculator.dto;
+package derekzuk.structure.binancespringwebsocketclient.dto;
 
 import java.math.BigDecimal;
 
@@ -13,5 +13,21 @@ public class MedianDTO {
         this.seen = seen;
         this.median = median;
         this.mostRecentPrice = mostRecentPrice;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public Double getSeen() {
+        return seen;
+    }
+
+    public BigDecimal getMedian() {
+        return median;
+    }
+
+    public BigDecimal getMostRecentPrice() {
+        return mostRecentPrice;
     }
 }

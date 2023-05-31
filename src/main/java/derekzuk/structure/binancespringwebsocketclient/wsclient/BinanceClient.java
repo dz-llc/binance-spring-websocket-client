@@ -1,6 +1,6 @@
-package derekzuk.structure.mediancalculator.wsclient;
+package derekzuk.structure.binancespringwebsocketclient.wsclient;
 
-import derekzuk.structure.mediancalculator.service.MedianService;
+import derekzuk.structure.binancespringwebsocketclient.service.MedianService;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
@@ -40,32 +40,6 @@ public class BinanceClient extends WebSocketClient {
     public BinanceClient(URI serverURI, MedianService medianService) {
         super(serverURI);
         this.medianService = medianService;
-    }
-
-    @Override
-    public void onOpen(ServerHandshake handshakedata) {
-        System.out.println("opened connection");
-    }
-
-    @Override
-    public void onMessage(String message) {
-        System.out.println("received: " + message);
-
-        medianService.calculateMedian(message);
-    }
-
-    @Override
-    public void onClose(int code, String reason, boolean remote) {
-        // The close codes are documented in class org.java_websocket.framing.CloseFrame
-        System.out.println(
-                "Connection closed by " + (remote ? "remote peer" : "us") + " Code: " + code + " Reason: "
-                        + reason);
-    }
-
-    @Override
-    public void onError(Exception ex) {
-        ex.printStackTrace();
-        // if the error is fatal then onClose will be called additionally
     }
 
     public static String getHTML(String urlToRead) throws Exception {
@@ -117,7 +91,6 @@ public class BinanceClient extends WebSocketClient {
                 sb.append("/" + symbol.toLowerCase() + "@trade");
                 counter++;
             } else {
-                System.out.println("sb.toString(): " + sb);
                 combinedStreamURLs.add(sb.toString());
                 sb = new StringBuilder(baseURL);
                 counter = 0;
@@ -128,6 +101,30 @@ public class BinanceClient extends WebSocketClient {
             BinanceClient c = new BinanceClient(new URI(streamURL), medianService);
             c.connect();
         }
+    }
+
+    @Override
+    public void onOpen(ServerHandshake handshakedata) {
+        System.out.println("opened connection");
+    }
+
+    @Override
+    public void onMessage(String message) {
+        medianService.calculateMedian(message);
+    }
+
+    @Override
+    public void onClose(int code, String reason, boolean remote) {
+        // The close codes are documented in class org.java_websocket.framing.CloseFrame
+        System.out.println(
+                "Connection closed by " + (remote ? "remote peer" : "us") + " Code: " + code + " Reason: "
+                        + reason);
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        ex.printStackTrace();
+        // if the error is fatal then onClose will be called additionally
     }
 
 }
